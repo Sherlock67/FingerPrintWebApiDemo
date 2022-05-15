@@ -18,12 +18,14 @@ public partial class Demo3 : System.Web.UI.Page
     protected void Button1_Click(object sender, EventArgs e)
     {
         sqlConnection.Open();
-        string query = "select * from FingersData";
+        string query = "SELECT TOP 1 * FROM FingersData";
         SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-        sqlCommand.Parameters.AddWithValue("@fingerBmpImage", TextBox1.Text);
-        sqlCommand.Parameters.AddWithValue("@fingerTemplateImage", TextBox2.Text);
+
+        //sqlCommand.Parameters.AddWithValue("@fingerBmpImage",);
+        //sqlCommand.Parameters.AddWithValue("@fingerTemplateImage",);
         sqlCommand.ExecuteNonQuery();
-        Console.WriteLine("Okay");
+        TextBox1.Text = "Rk1SACAyMAAAAAEIAAABLAGQAMUAxQEAAABOJ0CYABVpAIDaABZnAEB1ACBuAED6ACbdAEBJAC91AIB3AEtvAEDiAE5nAEArAFiAAECBAI5uAIAuAJMHAIB + AJV5AEBRAJ37AECrAKppAIEFAMPlAIA + AMeNAICPANBrAIBdANmEAIDAAN3hAICJAOjqAIC / APVeAEDmAPbbAEDyAQVbAECHAQbjAECfAQjgAICWAQldAICDAQ1oAEByAQ91AEDqARDdAEDBARJiAICjARllAIB6ARp9AIDSARxxAIC9ARxrAEDrASRhAECSAS3HAIDuATH1AEC0ATXRAEC + ATveAEDbAUVeAAAA"
+        /*Console.WriteLine("Okay")*/;
         sqlConnection.Close();
 
     }

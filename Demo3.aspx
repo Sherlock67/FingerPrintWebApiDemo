@@ -25,9 +25,12 @@
                 <td class="style3" align="left">
                     <span class="download_href"> 
                     <center>
+                        <asp:TextBox ID="TextBox1" Visible="false" runat="server"></asp:TextBox>
+                        
 		              <%--  <img  id="FPImage1" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger.bmp" > --%>
+                        <asp:Button ID="Button1" runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click" />
 		                <img  id="FPImage2" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger2.bmp" > <br>
-                        <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
+                        
 		                <%--<input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc1, ErrorFunc)">--%> 
 		                <input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc2, ErrorFunc)"> <br><br>
 		                <input type="button" value="Click to Match" onclick="matchScore(succMatch, failureFunc)"> <br><br>
@@ -45,9 +48,8 @@
     </div>
 </body>
 <script type="text/javascript">
-    var template_1 = window.localStorage.getItem("oldresult");
+    var template_1 = document.getElementById("<%= TextBox1.ClientID %>").value;
     var template_2 = "";
-
     function SuccessFunc1(result) {
         if (result.ErrorCode == 0) {
             /* 	Display BMP data in image tag
@@ -56,13 +58,17 @@
             if (result != null && result.BMPBase64.length > 0) {
                 document.getElementById('FPImage1').src = "data:image/bmp;base64," + result.BMPBase64;
             }
-            template_1 = window.localStorage.getItem("oldresult");
-            // template_1 = result.TemplateBase64;
+            //template_1 = window.localStorage.getItem("oldresult");
+             template_1 = result.TemplateBase64;
         }
         else {
             alert("Fingerprint Capture Error Code:  " + result.ErrorCode + ".\nDescription:  " + ErrorCodeToString(result.ErrorCode) + ".");
         }
     }
+
+
+
+
     function SuccessFunc2(result) {
         if (result.ErrorCode == 0) {
             /* 	Display BMP data in image tag
