@@ -8,6 +8,8 @@
     <title>Demo1</title>
 </head>
 <body>
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:DbConnection %>" SelectCommand="SELECT * FROM [FingersData]"></asp:SqlDataSource>
+    <%--<asp:SqlDataSource ID="Sample" runat="server"></asp:SqlDataSource>--%>
     <div class="row">
         <h3><b>Demonstration of Single Fingerprint Scanning</b></h3>
         <div class="col-md-10">
@@ -22,10 +24,14 @@
                         </td>
                         <td class="style3">
                         <span class="download_href"> 
-                            <img id="FPImage1" alt="Fingerpint Image" height=300 width=210 align="center" src=".\Images\PlaceFinger.bmp"> <br>
+                            <img id="FPImage1"  alt="Fingerpint Image" height=300 width=210 align="center" src=".\Images\PlaceFinger.bmp"> <br>
                             <input type="button" value="Click to Scan" onclick="captureFP()"><br>
+                           <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                             <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                            <asp:Button ID="Button1" runat="server" Text="Submit Fingerprint" OnClick="Button1_Click" />
                             <br>
-                            <p id="result"/>.
+                            
+                            <p id="result"/>
                         </span>
                         </td>
                         <td>&nbsp;</td>
@@ -43,9 +49,9 @@
 <script type="text/javascript">
 
     function captureFP() {
-    CallSGIFPGetData(SuccessFunc, ErrorFunc);
-}
-
+        CallSGIFPGetData(SuccessFunc, ErrorFunc);
+    }
+    
 /* 
     This functions is called if the service sucessfully returns some data in JSON object
  */
@@ -96,10 +102,14 @@ function SuccessFunc(result) {
         tbl += "</tr>";
         tbl += "</table>";
         document.getElementById('result').innerHTML = tbl;
+        window.localStorage.setItem("oldresult", result.TemplateBase64);
     }
     else {
         alert("Fingerprint Capture Error Code:  " + result.ErrorCode + ".\nDescription:  " + ErrorCodeToString(result.ErrorCode) + ".");
     }
+    var fpbase64 = document.getElementById("<%= TextBox1.ClientID %>").value = result.BMPBase64;
+    var fpbase64 = document.getElementById("<%= TextBox2.ClientID %>").value = result.TemplateBase64;
+    //console.log(fpbase64);
 }
 
 function ErrorFunc(status) {

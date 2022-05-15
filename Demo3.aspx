@@ -25,9 +25,10 @@
                 <td class="style3" align="left">
                     <span class="download_href"> 
                     <center>
-		                <img  id="FPImage1" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger.bmp" > 
+		              <%--  <img  id="FPImage1" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger.bmp" > --%>
 		                <img  id="FPImage2" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger2.bmp" > <br>
-		                <input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc1, ErrorFunc)"> 
+                        <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
+		                <%--<input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc1, ErrorFunc)">--%> 
 		                <input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc2, ErrorFunc)"> <br><br>
 		                <input type="button" value="Click to Match" onclick="matchScore(succMatch, failureFunc)"> <br><br>
 		                <div style=" color:black; padding:20px;">
@@ -44,7 +45,7 @@
     </div>
 </body>
 <script type="text/javascript">
-    var template_1 = "";
+    var template_1 = window.localStorage.getItem("oldresult");
     var template_2 = "";
 
     function SuccessFunc1(result) {
@@ -55,7 +56,8 @@
             if (result != null && result.BMPBase64.length > 0) {
                 document.getElementById('FPImage1').src = "data:image/bmp;base64," + result.BMPBase64;
             }
-            template_1 = result.TemplateBase64;
+            template_1 = window.localStorage.getItem("oldresult");
+            // template_1 = result.TemplateBase64;
         }
         else {
             alert("Fingerprint Capture Error Code:  " + result.ErrorCode + ".\nDescription:  " + ErrorCodeToString(result.ErrorCode) + ".");
@@ -75,7 +77,6 @@
             alert("Fingerprint Capture Error Code:  " + result.ErrorCode + ".\nDescription:  " + ErrorCodeToString(result.ErrorCode) + ".");
         }
     }
-
     function ErrorFunc(status) {
         /* 	
             If you reach here, user is probabaly not running the 
@@ -84,7 +85,6 @@
         */
         alert("Check if SGIBIOSRV is running; status = " + status + ":");
     }
-
     function CallSGIFPGetData(successCall, failCall) {
         //console.log("we are here in capture");
         var uri = "https://localhost:8443/SGIFPCapture";
@@ -129,7 +129,6 @@
                 failFunction(xmlhttp.status)
             }
         }
-
         xmlhttp.onerror = function () {
             failFunction(xmlhttp.status);
         }
@@ -140,14 +139,11 @@
         xmlhttp.open("POST", uri, false);
         xmlhttp.send(params);
     }
-
     function succMatch(result) {
         var idQuality = document.getElementById("quality").innerText = result.MatchingScore;
         console.log(result.MatchingScore);
         if (result.ErrorCode == 0) {
-           
-            if (result.MatchingScore >= idQuality)
-                
+            if (result.MatchingScore >= 100)
                 alert("MATCHED ! (" + result.MatchingScore + ")");
             else
                 alert("NOT MATCHED ! (" + result.MatchingScore + ")");
@@ -156,11 +152,9 @@
             alert("Error Scanning Fingerprint ErrorCode = " + result.ErrorCode);
         }
     }
-
     function failureFunc(error) {
         alert ("On Match Process, failure has been called");
     }
-
 </script>
 </html>
 </asp:Content>
