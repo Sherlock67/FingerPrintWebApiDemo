@@ -14,6 +14,7 @@ public partial class Demo3 : System.Web.UI.Page
     //SqlConnection sqlConnection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DbConnection"].ConnectionString);
     protected void Page_Load(object sender, EventArgs e)
     {
+
        /// Button1.Attributes.Add("onclick","return confirm('okaaay')");
     }
     protected void Button1_Click(object sender, EventArgs e)
@@ -21,7 +22,7 @@ public partial class Demo3 : System.Web.UI.Page
         SqlConnection sqlConnection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DbConnection"].ConnectionString);
         //string jsMethodName = "helloWorld()";
         //ScriptManager.RegisterClientScriptBlock(this, GetType(), "uniqueKey", jsMethodName, true);
-        
+       
         SqlCommand cmd = new SqlCommand("Select fingerTemplateImage from FingersData where fingerId = 12", sqlConnection);
         sqlConnection.Open();
         using (SqlDataReader oReader = cmd.ExecuteReader())
@@ -30,10 +31,11 @@ public partial class Demo3 : System.Web.UI.Page
             {
                 while (oReader.Read())
                 {
-                    var fptmpimage = oReader["fingerTemplateImage"].ToString();
+                    string fptmpimage = oReader["fingerTemplateImage"].ToString();
                     string jsFunc = "helloWorld(" + fptmpimage + ")";
-                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "myJsFn", jsFunc, true);
-                    //ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:helloWorld(" + fptmpimage + ");", true);
+                    Response.Write(fptmpimage);
+                   ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myJsFn", jsFunc, true);
+                    //ClientScript.RegisterStartupScript(GetType(), "Javascript", jsFunc, true);
                     //ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "myJsFn", "javascript:helloWorld(" + fptmpimage + ")", true);
                 }
                

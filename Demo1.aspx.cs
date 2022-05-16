@@ -23,7 +23,7 @@ public partial class Demo1 : System.Web.UI.Page
         sqlCommand.Parameters.AddWithValue("@fingerBmpImage",TextBox1.Text);
         sqlCommand.Parameters.AddWithValue("@fingerTemplateImage",TextBox2.Text);
         sqlCommand.ExecuteNonQuery();
-		Console.WriteLine("Okay");
+		
         sqlConnection.Close();
     }
 }

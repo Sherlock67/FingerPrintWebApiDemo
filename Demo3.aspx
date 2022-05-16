@@ -8,7 +8,7 @@
 <head>
     <title>Demo3</title>
 </head>
-<body onload="setFormAction();">
+<body>
     <div class="row">
         <h3><b>Demonstration of Fingerprint Matching</b></h3>
         <div class="col-md-10">
@@ -27,7 +27,7 @@
                     <center>
                         <asp:TextBox ID="TextBox1" Visible="true" runat="server"></asp:TextBox>
 		              <%--  <img  id="FPImage1" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger.bmp" > --%>
-                        <asp:Button ID="Button1" OnClientClick="helloWorld()"  runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click"  />
+                        <asp:Button ID="Button1"  runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click"  />
 		                <img  id="FPImage2" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger2.bmp" > <br>
                         
 		                <%--<input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc1, ErrorFunc)">--%> 
@@ -48,6 +48,9 @@
 </body>
 <script type="text/javascript" lang="javascript">
     
+
+    
+
 
 
     var template_1 = "";
@@ -133,10 +136,8 @@
         xmlhttp.send(params);
     }
 
-
-    function helloWorld(result) {
-        console.log(result);
-    }
+   
+    
 
 
     function matchScore(succFunction, failFunction) {
@@ -189,8 +190,14 @@
     }
 
 
+ 
 
-    //
+    function helloWorld(x) {
+        console.log(x);
+    }
+
+
+    
     function failureFunc(error) {
         alert ("On Match Process, failure has been called");
     }
