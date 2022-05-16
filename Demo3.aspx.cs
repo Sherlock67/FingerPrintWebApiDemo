@@ -10,7 +10,7 @@ public partial class Demo3 : System.Web.UI.Page
 {
     
 
-    SqlConnection sqlConnection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DbConnection"].ConnectionString);
+    
     //SqlConnection sqlConnection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DbConnection"].ConnectionString);
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -18,20 +18,29 @@ public partial class Demo3 : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-        string jsMethodName = "helloWorld()";
-        ScriptManager.RegisterClientScriptBlock(this, GetType(), "uniqueKey", jsMethodName, true);
+        SqlConnection sqlConnection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DbConnection"].ConnectionString);
+        //string jsMethodName = "helloWorld()";
+        //ScriptManager.RegisterClientScriptBlock(this, GetType(), "uniqueKey", jsMethodName, true);
+        
+        SqlCommand cmd = new SqlCommand("Select fingerTemplateImage from FingersData where fingerId = 12", sqlConnection);
+        sqlConnection.Open();
+        using (SqlDataReader oReader = cmd.ExecuteReader())
+        {
+            if (oReader.HasRows)
+            {
+                while (oReader.Read())
+                {
+                    var fptmpimage = oReader["fingerTemplateImage"].ToString();
+                    string jsFunc = "helloWorld(" + fptmpimage + ")";
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "myJsFn", jsFunc, true);
+                    //ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:helloWorld(" + fptmpimage + ");", true);
+                    //ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "myJsFn", "javascript:helloWorld(" + fptmpimage + ")", true);
+                }
+               
+            }
 
-       
-        //sqlConnection.Open();
-        //string query = "Select fingerTemplateImage from FingersData ";
-        //SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-
-        ////sqlCommand.Parameters.AddWithValue("@fingerBmpImage",);
-        //// sqlCommand.Parameters.AddWithValue("@fingerTemplateImage",);
-        //sqlCommand.ExecuteNonQuery();
-        ////TextBox1.Text = "Rk1SACAyMAAAAAEIAAABLAGQAMUAxQEAAABOJ0CYABVpAIDaABZnAEB1ACBuAED6ACbdAEBJAC91AIB3AEtvAEDiAE5nAEArAFiAAECBAI5uAIAuAJMHAIB + AJV5AEBRAJ37AECrAKppAIEFAMPlAIA + AMeNAICPANBrAIBdANmEAIDAAN3hAICJAOjqAIC / APVeAEDmAPbbAEDyAQVbAECHAQbjAECfAQjgAICWAQldAICDAQ1oAEByAQ91AEDqARDdAEDBARJiAICjARllAIB6ARp9AIDSARxxAIC9ARxrAEDrASRhAECSAS3HAIDuATH1AEC0ATXRAEC + ATveAEDbAUVeAAAA"
-        /////*Console.WriteLine("Okay")*/;
-        //sqlConnection.Close();
+            sqlConnection.Close();
+        }
 
     }
 

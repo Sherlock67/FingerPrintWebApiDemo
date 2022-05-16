@@ -8,7 +8,7 @@
 <head>
     <title>Demo3</title>
 </head>
-<body>
+<body onload="setFormAction();">
     <div class="row">
         <h3><b>Demonstration of Fingerprint Matching</b></h3>
         <div class="col-md-10">
@@ -26,9 +26,8 @@
                     <span class="download_href"> 
                     <center>
                         <asp:TextBox ID="TextBox1" Visible="true" runat="server"></asp:TextBox>
-                        
 		              <%--  <img  id="FPImage1" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger.bmp" > --%>
-                        <asp:Button ID="Button1" OnClientClick ="helloWorld() "  runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click"  />
+                        <asp:Button ID="Button1" OnClientClick="helloWorld()"  runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click"  />
 		                <img  id="FPImage2" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger2.bmp" > <br>
                         
 		                <%--<input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc1, ErrorFunc)">--%> 
@@ -47,11 +46,8 @@
         </div>
     </div>
 </body>
-<script type="text/javascript">
-    function helloWorld() {
-        alert("welcome to codepedia.info");
-    }
-
+<script type="text/javascript" lang="javascript">
+    
 
 
     var template_1 = "";
@@ -77,9 +73,7 @@
 
    
    
-
-
-
+    
     function SuccessFunc2(result) {
         if (result.ErrorCode == 0) {
             /* 	Display BMP data in image tag
@@ -99,8 +93,6 @@
 
 
 
-
-
     function ErrorFunc(status) {
         /* 	
             If you reach here, user is probabaly not running the 
@@ -109,7 +101,6 @@
         */
         alert("Check if SGIBIOSRV is running; status = " + status + ":");
     }
-
 
 
 
@@ -143,7 +134,9 @@
     }
 
 
-
+    function helloWorld(result) {
+        console.log(result);
+    }
 
 
     function matchScore(succFunction, failFunction) {
@@ -177,6 +170,9 @@
 
 
 
+   
+
+
 
     function succMatch(result) {
         var idQuality = document.getElementById("quality").innerText = result.MatchingScore;
@@ -203,5 +199,6 @@
 
 
 </script>
+
 </html>
 </asp:Content>
