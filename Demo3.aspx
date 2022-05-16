@@ -25,10 +25,10 @@
                 <td class="style3" align="left">
                     <span class="download_href"> 
                     <center>
-                        <asp:TextBox ID="TextBox1" Visible="false" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="TextBox1" Visible="true" runat="server"></asp:TextBox>
                         
 		              <%--  <img  id="FPImage1" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger.bmp" > --%>
-                        <asp:Button ID="Button1" runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click" />
+                        <asp:Button ID="Button1" OnClientClick ="helloWorld() "  runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click"  />
 		                <img  id="FPImage2" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger2.bmp" > <br>
                         
 		                <%--<input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc1, ErrorFunc)">--%> 
@@ -48,7 +48,13 @@
     </div>
 </body>
 <script type="text/javascript">
-    var template_1 = document.getElementById("<%= TextBox1.ClientID %>").value;
+    function helloWorld() {
+        alert("welcome to codepedia.info");
+    }
+
+
+
+    var template_1 = "";
     var template_2 = "";
     function SuccessFunc1(result) {
         if (result.ErrorCode == 0) {
@@ -69,6 +75,11 @@
 
 
 
+   
+   
+
+
+
     function SuccessFunc2(result) {
         if (result.ErrorCode == 0) {
             /* 	Display BMP data in image tag
@@ -83,6 +94,13 @@
             alert("Fingerprint Capture Error Code:  " + result.ErrorCode + ".\nDescription:  " + ErrorCodeToString(result.ErrorCode) + ".");
         }
     }
+
+
+
+
+
+
+
     function ErrorFunc(status) {
         /* 	
             If you reach here, user is probabaly not running the 
@@ -91,6 +109,13 @@
         */
         alert("Check if SGIBIOSRV is running; status = " + status + ":");
     }
+
+
+
+
+
+
+
     function CallSGIFPGetData(successCall, failCall) {
         //console.log("we are here in capture");
         var uri = "https://localhost:8443/SGIFPCapture";
@@ -116,6 +141,10 @@
         xmlhttp.open("POST", uri, true);
         xmlhttp.send(params);
     }
+
+
+
+
 
     function matchScore(succFunction, failFunction) {
         console.log("we are here to match fingerprint");
@@ -145,6 +174,10 @@
         xmlhttp.open("POST", uri, false);
         xmlhttp.send(params);
     }
+
+
+
+
     function succMatch(result) {
         var idQuality = document.getElementById("quality").innerText = result.MatchingScore;
         console.log(result.MatchingScore);
@@ -158,9 +191,17 @@
             alert("Error Scanning Fingerprint ErrorCode = " + result.ErrorCode);
         }
     }
+
+
+
+    //
     function failureFunc(error) {
         alert ("On Match Process, failure has been called");
     }
+
+
+
+
 </script>
 </html>
 </asp:Content>
