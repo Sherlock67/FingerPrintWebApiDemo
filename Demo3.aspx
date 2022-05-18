@@ -12,6 +12,7 @@
     <div class="row">
         <h3><b>Demonstration of Fingerprint Matching</b></h3>
         <div class="col-md-10">
+            
             <p>
                 <b>This demo scans 2 fingerprints for matching, compares them with each other, and returns a matching score.</b>
             </p>
@@ -25,14 +26,14 @@
                 <td class="style3" align="left">
                     <span class="download_href"> 
                     <center>
-                        <asp:TextBox ID="TextBox1" Visible="true" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="TextBox1"  Visible="true" runat="server"></asp:TextBox>
 		              <%--  <img  id="FPImage1" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger.bmp" > --%>
                         <asp:Button ID="Button1"  runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click"  />
 		                <img  id="FPImage2" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger2.bmp" > <br>
                         
 		                <%--<input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc1, ErrorFunc)">--%> 
 		                <input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc2, ErrorFunc)"> <br><br>
-		                <input type="button" value="Click to Match" onclick="matchScore(succMatch, failureFunc)"> <br><br>
+		                <input type="button" value="Click to Match" onclick="matchScore(succMatch, failureFunc)" id="+"> <br><br>
 		                <div style=" color:black; padding:20px;">
 		                    <p id="result1"> </p>
 		                    <p id="result2"> </p>
@@ -49,12 +50,10 @@
 <script type="text/javascript" lang="javascript">
     
 
-    
-
-
-
-    var template_1 = "";
+    var template_1 = "" ;
     var template_2 = "";
+
+
     function SuccessFunc1(result) {
         if (result.ErrorCode == 0) {
             /* 	Display BMP data in image tag
@@ -63,12 +62,22 @@
             if (result != null && result.BMPBase64.length > 0) {
                 document.getElementById('FPImage1').src = "data:image/bmp;base64," + result.BMPBase64;
             }
+            
             //template_1 = window.localStorage.getItem("oldresult");
-             template_1 = result.TemplateBase64;
+           // template_1 = window.localStorage.setItem("oldresult");
+            // template_1 = result.TemplateBase64;
+            template_1 = result.TemplateBase64;
         }
         else {
             alert("Fingerprint Capture Error Code:  " + result.ErrorCode + ".\nDescription:  " + ErrorCodeToString(result.ErrorCode) + ".");
         }
+    }
+
+    function SuccessFunc1(result) {
+        
+        template_1 = result;
+        console.log(template_1);
+     
     }
 
 
@@ -141,11 +150,17 @@
 
 
     function matchScore(succFunction, failFunction) {
-        console.log("we are here to match fingerprint");
-        if (template_1 == "" || template_2 == "") {
-            alert("Please scan two fingers to verify!!");
+
+        console.log("template_1 ", template_1);
+        console.log("template_2 ", template_2);
+        //template_1 = "Rk1SACAyMAAAAAF0AAABLAGQAMUAxQEAAABROYBgABYUAEDMADKHAEC7ADwGAIBxAD0QAEDSAEv7AEAwAFIhAECaAFIGAEAwAGceAEB1AGydAEC1AG6AAECzAH2DAECLAIMKAIC5AIWEAEClAIwHAIB2AI4YAEB3AJWaAIBMAJkkAEC3AKcDAIDkAKh2AIChAK6JAEAyALCnAEAdALkoAEBWALshAEAnANssAEEJAN5pAEDlAOD0AECgAOybAIBKAP4wAICiAQMUAIC4AQsAAEAuARGzAEDmARdpAICrAR4RAIBPASCyAEAzASgzAECmATAVAEDSATBuAEDzATRnAEBmATcsAEBZATcwAECpAT8QAEDQAT9xAEDoAUHoAEDEAUOAAEB/AUaqAEDUAUbjAEDAAUjxAEBRAUm1AEBEAUszAEC6AU/qAIC0AVXZAEDSAVbUAEDHAV/KAECwAWa7AEDrAWfGAECoAW6xAEDLAXhDAAAA"
+        //console.log("we are here to match fingerprint");
+        if (template_1== "" || template_2 == "") {
+            alert("Please scan your fingers to verify!!");
             return;
         }
+
+
         var uri = "https://localhost:8443/SGIMatchScore";
 
         var xmlhttp = new XMLHttpRequest();
@@ -161,7 +176,7 @@
         xmlhttp.onerror = function () {
             failFunction(xmlhttp.status);
         }
-        var params = "template1=" + encodeURIComponent(template_1);
+        var params ="template1=" + encodeURIComponent(template_1);
         params += "&template2=" + encodeURIComponent(template_2);
         params += "&licstr=" + encodeURIComponent(secugen_lic);
         params += "&templateFormat=" + "ISO";
@@ -191,10 +206,14 @@
 
 
  
+    
+    function helloWorld(x) {     
+        template_1 = x;
+       // console.log(template_1);
+        //alert(template_1);
 
-    function helloWorld(x) {
-        console.log(x);
     }
+  
 
 
     

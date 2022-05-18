@@ -108,7 +108,7 @@ function SuccessFunc(result) {
         alert("Fingerprint Capture Error Code:  " + result.ErrorCode + ".\nDescription:  " + ErrorCodeToString(result.ErrorCode) + ".");
     }
     var fpbase64 = document.getElementById("<%= TextBox1.ClientID %>").value = result.BMPBase64;
-    var fpbase64 = document.getElementById("<%= TextBox2.ClientID %>").value = result.TemplateBase64;
+    var fptmpbase64 = document.getElementById("<%= TextBox2.ClientID %>").value = result.TemplateBase64;
     //console.log(fpbase64);
 }
 

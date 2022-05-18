@@ -22,6 +22,7 @@ public partial class Demo1 : System.Web.UI.Page
         SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
         sqlCommand.Parameters.AddWithValue("@fingerBmpImage",TextBox1.Text);
         sqlCommand.Parameters.AddWithValue("@fingerTemplateImage",TextBox2.Text);
+        
         sqlCommand.ExecuteNonQuery();
 		
         sqlConnection.Close();
