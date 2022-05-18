@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -19,12 +20,17 @@ public partial class Demo1 : System.Web.UI.Page
     {
 		sqlConnection.Open();
 		string query = "Insert into [dbo].[FingersData] (fingerBmpImage,fingerTemplateImage) Values (@fingerBmpImage,@fingerTemplateImage)";
+        //string regex = @"[^0-9a-zA-Z]+";
+        //TextBox2.Text = Regex.Replace(TextBox2.Text, regex, "");
+        
         SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
         sqlCommand.Parameters.AddWithValue("@fingerBmpImage",TextBox1.Text);
         sqlCommand.Parameters.AddWithValue("@fingerTemplateImage",TextBox2.Text);
-        
+      
         sqlCommand.ExecuteNonQuery();
-		
+        //Response.Write(TextBox1.Text);
+
+        //Response.Write(TextBox2.Text);
         sqlConnection.Close();
     }
 }

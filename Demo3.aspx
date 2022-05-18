@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Secugen-Demo3" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Demo3.aspx.cs" Inherits="Demo3" %>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-
+    
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -54,37 +54,34 @@
     var template_2 = "";
 
 
-    function SuccessFunc1(result) {
-        if (result.ErrorCode == 0) {
-            /* 	Display BMP data in image tag
-                BMP data is in base 64 format 
-            */
-            if (result != null && result.BMPBase64.length > 0) {
-                document.getElementById('FPImage1').src = "data:image/bmp;base64," + result.BMPBase64;
-            }
-            
-            //template_1 = window.localStorage.getItem("oldresult");
-           // template_1 = window.localStorage.setItem("oldresult");
-            // template_1 = result.TemplateBase64;
-            template_1 = result.TemplateBase64;
-        }
-        else {
-            alert("Fingerprint Capture Error Code:  " + result.ErrorCode + ".\nDescription:  " + ErrorCodeToString(result.ErrorCode) + ".");
-        }
-    }
+    //function SuccessFunc1(result) {
+    //    if (result.ErrorCode == 0) {
+    //        /* 	Display BMP data in image tag
+    //            BMP data is in base 64 format 
+    //        */
+    //        if (result != null && result.BMPBase64.length > 0) {
+    //            document.getElementById('FPImage1').src = "data:image/bmp;base64," + result.BMPBase64;
+    //        }        
+    //        //template_1 = window.localStorage.getItem("oldresult");
+    //       // template_1 = window.localStorage.setItem("oldresult");
+    //        // template_1 = result.TemplateBase64;
+    //        template_1 = result.TemplateBase64;
+    //    }
+    //    else {
+    //        alert("Fingerprint Capture Error Code:  " + result.ErrorCode + ".\nDescription:  " + ErrorCodeToString(result.ErrorCode) + ".");
+    //    }
+    //}
+   
 
     function SuccessFunc1(result) {
-        
+        console.log("Resultant template", result);
+        //        template_1 = decodeURI(result);
         template_1 = result;
-        console.log(template_1);
-     
+       // console.log("after decoding",template_1);
+   
     }
+  //  SuccessFunc1(resultTemp);
 
-
-
-
-   
-   
     
     function SuccessFunc2(result) {
         if (result.ErrorCode == 0) {
@@ -103,8 +100,6 @@
 
 
 
-
-
     function ErrorFunc(status) {
         /* 	
             If you reach here, user is probabaly not running the 
@@ -113,9 +108,6 @@
         */
         alert("Check if SGIBIOSRV is running; status = " + status + ":");
     }
-
-
-
 
 
 
@@ -148,9 +140,9 @@
    
     
 
-
+    
     function matchScore(succFunction, failFunction) {
-
+        
         console.log("template_1 ", template_1);
         console.log("template_2 ", template_2);
         //template_1 = "Rk1SACAyMAAAAAF0AAABLAGQAMUAxQEAAABROYBgABYUAEDMADKHAEC7ADwGAIBxAD0QAEDSAEv7AEAwAFIhAECaAFIGAEAwAGceAEB1AGydAEC1AG6AAECzAH2DAECLAIMKAIC5AIWEAEClAIwHAIB2AI4YAEB3AJWaAIBMAJkkAEC3AKcDAIDkAKh2AIChAK6JAEAyALCnAEAdALkoAEBWALshAEAnANssAEEJAN5pAEDlAOD0AECgAOybAIBKAP4wAICiAQMUAIC4AQsAAEAuARGzAEDmARdpAICrAR4RAIBPASCyAEAzASgzAECmATAVAEDSATBuAEDzATRnAEBmATcsAEBZATcwAECpAT8QAEDQAT9xAEDoAUHoAEDEAUOAAEB/AUaqAEDUAUbjAEDAAUjxAEBRAUm1AEBEAUszAEC6AU/qAIC0AVXZAEDSAVbUAEDHAV/KAECwAWa7AEDrAWfGAECoAW6xAEDLAXhDAAAA"
@@ -187,9 +179,6 @@
 
 
    
-
-
-
     function succMatch(result) {
         var idQuality = document.getElementById("quality").innerText = result.MatchingScore;
         console.log(result.MatchingScore);
@@ -205,17 +194,13 @@
     }
 
 
- 
     
-    function helloWorld(x) {     
-        template_1 = x;
-       // console.log(template_1);
-        //alert(template_1);
-
-    }
+    //function helloWorld(x) {     
+    //    template_1 = x;
+    //    //console.log(template_1);
+    //    //alert(template_1);
+    //}
   
-
-
     
     function failureFunc(error) {
         alert ("On Match Process, failure has been called");
