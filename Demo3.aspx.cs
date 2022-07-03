@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using System.Web;
@@ -13,14 +14,23 @@ public partial class Demo3 : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 
+        SqlConnection sqlConnection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DbConnection"].ConnectionString);
+        SqlCommand cmd = new SqlCommand("select fingerId from FingersData", sqlConnection);
         /// Button1.Attributes.Add("onclick","return confirm('okaaay')");
+        sqlConnection.Open();
+        SqlDataAdapter sda = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        sda.Fill(dt);
+        DropDownList1.DataSource = dt;
+        DropDownList1.DataBind();
+
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
         SqlConnection sqlConnection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DbConnection"].ConnectionString);
 
 
-        SqlCommand cmd = new SqlCommand("Select fingerTemplateImage from FingersData where fingerId = 13", sqlConnection);
+        SqlCommand cmd = new SqlCommand("Select * from FingersData where fingerId =" +DropDownList1.SelectedItem.Value, sqlConnection);
         sqlConnection.Open();
         using (SqlDataReader oReader = cmd.ExecuteReader())
         {

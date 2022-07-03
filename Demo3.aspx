@@ -26,9 +26,14 @@
                 <td class="style3" align="left">
                     <span class="download_href"> 
                     <center>
-                        <asp:TextBox ID="TextBox1"  Visible="true" runat="server"></asp:TextBox>
+                        <%--<asp:TextBox ID="TextBox1"  Visible="true" runat="server"></asp:TextBox>--%>
 		              <%--  <img  id="FPImage1" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger.bmp" > --%>
-                        <asp:Button ID="Button1"  runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click"  />
+                        <asp:DropDownList ID="DropDownList1" runat="server" AppendDataBoundItems="True"   
+                            AutoPostBack="True" DataTextField="fingerId" DataValueField="fingerId" Height="30px"   
+                                    Width="118px">  
+                            <asp:ListItem Value="0">-- Select Id--</asp:ListItem>  
+                        </asp:DropDownList>  
+                       <asp:Button ID="Button1"  runat="server" Text="Get The Saved Fingerprint" OnClick="Button1_Click"  />
 		                <img  id="FPImage2" alt="Fingerpint Image" height=300 width=210 src=".\Images\PlaceFinger2.bmp" > <br>
                         
 		                <%--<input type="button" value="Click to Scan" onclick="CallSGIFPGetData(SuccessFunc1, ErrorFunc)">--%> 
@@ -52,8 +57,6 @@
 
     var template_1 = "" ;
     var template_2 = "";
-
-
     //function SuccessFunc1(result) {
     //    if (result.ErrorCode == 0) {
     //        /* 	Display BMP data in image tag
@@ -75,7 +78,7 @@
 
     function SuccessFunc1(result) {
         console.log("Resultant template", result);
-        //        template_1 = decodeURI(result);
+        //template_1 = decodeURI(result);
         template_1 = result;
        // console.log("after decoding",template_1);
    
@@ -175,10 +178,6 @@
         xmlhttp.open("POST", uri, false);
         xmlhttp.send(params);
     }
-
-
-
-   
     function succMatch(result) {
         var idQuality = document.getElementById("quality").innerText = result.MatchingScore;
         console.log(result.MatchingScore);
